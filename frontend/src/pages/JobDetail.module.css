@@ -1,0 +1,91 @@
+.detail h1 {
+  margin-bottom: 0.5rem;
+}
+
+.meta {
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.detail section {
+  margin-bottom: 1.5rem;
+}
+
+.detail section h2 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.form {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  max-width: 500px;
+}
+
+.form h2 {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.form input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form button {
+  padding: 0.6rem 1rem;
+  background: #4361ee;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.submitError {
+  color: #c00;
+  margin-bottom: 0.5rem;
+}
+
+.success {
+  text-align: center;
+  padding: 2rem;
+}
+
+.success h2 {
+  margin-bottom: 0.5rem;
+}
+
+.success button {
+  margin-top: 1rem;
+  padding: 0.6rem 1rem;
+  background: #4361ee;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.loading,
+.error {
+  text-align: center;
+  padding: 2rem;
+}
+
+.error {
+  color: #c00;
+}

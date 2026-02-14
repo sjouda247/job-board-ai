@@ -1,0 +1,92 @@
+.page h1 {
+  margin-bottom: 1.5rem;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  max-width: 600px;
+}
+
+.card h2 {
+  margin: 0 0 0.25rem 0;
+}
+
+.location {
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.status {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.status.pending,
+.status.evaluating {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status.under_review {
+  background: #cce5ff;
+  color: #004085;
+}
+
+.status.accepted {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status.rejected {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+dl {
+  margin: 1rem 0;
+}
+
+dt {
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+dd {
+  margin: 0.25rem 0 0 0;
+}
+
+.score {
+  font-weight: 600;
+  margin: 0.5rem 0;
+}
+
+.card h3 {
+  font-size: 1rem;
+  margin: 1rem 0 0.5rem 0;
+}
+
+.card button {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background: #4361ee;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.loading,
+.error {
+  text-align: center;
+  padding: 2rem;
+}
+
+.error {
+  color: #c00;
+}

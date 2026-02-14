@@ -1,0 +1,64 @@
+.home h1 {
+  margin-bottom: 1.5rem;
+  font-size: 1.75rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.card h2 {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.location {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.salary {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.desc {
+  color: #555;
+  font-size: 0.9rem;
+  flex: 1;
+}
+
+.applyLink {
+  margin-top: 0.75rem;
+  display: inline-block;
+  color: #4361ee;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.applyLink:hover {
+  text-decoration: underline;
+}
+
+.loading,
+.error,
+.empty {
+  text-align: center;
+  padding: 2rem;
+}
+
+.error {
+  color: #c00;
+}

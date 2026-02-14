@@ -1,0 +1,55 @@
+.container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+}
+
+.container h1 {
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.container label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.container input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.container button {
+  width: 100%;
+  padding: 0.6rem;
+  background: #4361ee;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.container button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.error {
+  color: #c00;
+  margin-bottom: 0.5rem;
+}
+
+.container p {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.container a {
+  color: #4361ee;
+}

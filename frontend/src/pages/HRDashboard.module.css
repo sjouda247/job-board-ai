@@ -1,0 +1,130 @@
+.page h1 {
+  margin-bottom: 1.5rem;
+}
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.stat {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  min-width: 100px;
+}
+
+.statValue {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.filters {
+  margin-bottom: 1rem;
+}
+
+.filters select {
+  padding: 0.5rem;
+  margin-left: 0.5rem;
+  border-radius: 4px;
+}
+
+.tableWrap {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+}
+
+.table th,
+.table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.table th {
+  background: #f8f9fa;
+  font-weight: 600;
+}
+
+.email {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.status {
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+}
+
+.status.pending,
+.status.evaluating {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status.under_review {
+  background: #cce5ff;
+  color: #004085;
+}
+
+.status.accepted {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status.rejected {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.acceptBtn {
+  padding: 0.3rem 0.6rem;
+  background: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.rejectBtn {
+  padding: 0.3rem 0.6rem;
+  background: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.waiting {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.loading,
+.error,
+.empty {
+  text-align: center;
+  padding: 2rem;
+}
+
+.error {
+  color: #c00;
+}

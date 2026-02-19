@@ -144,29 +144,31 @@ async function startServer() {
   process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
   process.on('SIGINT', () => gracefulShutdown('SIGINT'));
 
-  try {
-    await initDatabase();
-
-    const listenCallback = async (error?: Error) => {
-      if (error) {
-        console.error('Failed to start server:', error);
-        process.exit(1);
-      }
-      console.log(`
+  const listenCallback = (error?: Error) => {
+    if (error) {
+      console.error('Failed to start server:', error);
+      process.exit(1);
+    }
+    console.log(`
 🚀 Server is running!
 📡 Port: ${PORT}
 🌍 Environment: ${process.env.NODE_ENV || 'development'}
 📝 API: http://localhost:${PORT}/api
-      `);
-      seed().catch((err) => {
-        console.warn('Seed failed (non-fatal):', err);
+    `);
+    // Init DB and seed after listening so Cloud Run sees the port open immediately
+    initDatabase()
+      .then(() => seed())
+      .catch((err) => {
+        console.warn('Init/seed failed (non-fatal):', err);
       });
-    };
+  };
+
+  try {
     server = HOST
       ? app.listen(PORT, HOST as string, listenCallback)
       : app.listen(PORT, listenCallback);
   } catch (error) {
-    console.error('Failed to initialize database:', error);
+    console.error('Failed to start server:', error);
     process.exit(1);
   }
 }

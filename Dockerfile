@@ -23,5 +23,8 @@ RUN npm ci --omit=dev
 COPY --from=backend-build /backend/dist ./dist
 COPY --from=frontend-build /frontend/dist ./public
 ENV NODE_ENV=production
+ENV PORT=8080
+ENV DATABASE_PATH=/tmp/database.sqlite
+ENV UPLOAD_DIR=/tmp/uploads
 EXPOSE 8080
 CMD ["node", "dist/server.js"]

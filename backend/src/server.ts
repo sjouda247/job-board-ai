@@ -13,8 +13,9 @@ import jobsRoutes from './routes/jobs.routes';
 import applicationsRoutes from './routes/applications.routes';
 import hrRoutes from './routes/hr.routes';
 
-// Load environment variables
+// Load environment variables (before other config that reads env)
 dotenv.config();
+
 
 const app = express();
 const PORT = Number(process.env.PORT) || 5001;

@@ -17,7 +17,7 @@ import hrRoutes from './routes/hr.routes';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5001;
+const PORT = Number(process.env.PORT) || 5001;
 const HOST = process.env.NODE_ENV === 'production' ? '0.0.0.0' : undefined;
 
 // Middleware
@@ -163,7 +163,7 @@ async function startServer() {
       });
     };
     server = HOST
-      ? app.listen(PORT, HOST, listenCallback)
+      ? app.listen(PORT, HOST as string, listenCallback)
       : app.listen(PORT, listenCallback);
   } catch (error) {
     console.error('Failed to initialize database:', error);

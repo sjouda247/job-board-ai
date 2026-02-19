@@ -1,7 +1,24 @@
-const API_BASE = '/api';
+const API_BASE = import.meta.env.VITE_API_URL
+  ? `${import.meta.env.VITE_API_URL.replace(/\/$/, '')}/api`
+  : '/api';
 
 function getToken(): string | null {
   return localStorage.getItem('token');
+}
+
+function getErrorMessage(res: Response, data: Record<string, unknown>): string {
+  if (data.error && typeof data.error === 'string') return data.error;
+  if (data.message && typeof data.message === 'string') return data.message;
+  if (Array.isArray(data.errors) && data.errors.length > 0) {
+    const first = data.errors[0] as { msg?: string; message?: string };
+    return first.msg || first.message || 'Validation failed';
+  }
+  if (res.status === 502 || res.status === 503 || res.status === 504) {
+    return 'Cannot reach server. The backend may be down or unreachable.';
+  }
+  if (res.status === 404) return 'Not found';
+  if (res.status === 401) return 'Invalid credentials';
+  return 'Request failed';
 }
 
 async function request<T>(
@@ -21,11 +38,18 @@ async function request<T>(
     delete headers['Content-Type'];
   }
 
-  const res = await fetch(`${API_BASE}${path}`, { ...options, headers });
-  const data = await res.json().catch(() => ({}));
+  let res: Response;
+  try {
+    res = await fetch(`${API_BASE}${path}`, { ...options, headers });
+  } catch (err) {
+    const base = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+    throw new Error(`Cannot connect to server. Is the backend running at ${base}?`);
+  }
+
+  const data = (await res.json().catch(() => ({}))) as Record<string, unknown>;
 
   if (!res.ok) {
-    throw new Error(data.error || data.message || 'Request failed');
+    throw new Error(getErrorMessage(res, data));
   }
   return data as T;
 }

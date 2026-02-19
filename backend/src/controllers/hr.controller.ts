@@ -125,7 +125,7 @@ export class HRController {
         average_ai_score: HRController.calculateAverageScore(allApplications),
       };
 
-      res.json({ stats });
+      res.json(stats);
     } catch (error) {
       console.error('Get stats error:', error);
       res.status(500).json({ error: 'Failed to fetch statistics' });

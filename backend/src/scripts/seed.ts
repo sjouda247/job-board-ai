@@ -7,7 +7,7 @@ import { authConfig } from '../config/auth';
 
 dotenv.config();
 
-async function seed() {
+export async function seed() {
   console.log('🌱 Starting database seeding...\n');
 
   // Initialize database
@@ -92,4 +92,6 @@ async function seed() {
   }
 }
 
-seed();
+if (require.main === module) {
+  seed();
+}

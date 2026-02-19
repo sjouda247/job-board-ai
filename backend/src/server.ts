@@ -1,7 +1,9 @@
 import express from 'express';
+import path from 'path';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { initDatabase } from './config/database';
+import { seed } from './scripts/seed';
 import { errorHandler } from './utils/errors';
 import db from './config/database';
 
@@ -50,7 +52,7 @@ app.get('/api/test/ai', async (req, res) => {
     const testPrompt = 'Say "Gemini is working!" in a friendly way.';
     const response = await gemini.models.generateContent({
       model: geminiModel,
-      contents: testPrompt,
+      contents: [{ role: 'user', parts: [{ text: testPrompt }] }],
       config: { maxOutputTokens: 50, temperature: 0.7 },
     });
 
@@ -81,7 +83,17 @@ app.use('/api/jobs', jobsRoutes);
 app.use('/api/applications', applicationsRoutes);
 app.use('/api/hr', hrRoutes);
 
-// 404 handler
+// Production: serve React SPA from /public
+if (process.env.NODE_ENV === 'production') {
+  const publicDir = path.join(__dirname, '..', 'public');
+  app.use(express.static(publicDir));
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api')) return next();
+    res.sendFile(path.join(publicDir, 'index.html'));
+  });
+}
+
+// 404 handler (API routes or development)
 app.use((req, res) => {
   res.status(404).json({ error: 'Route not found' });
 });
@@ -133,7 +145,10 @@ async function startServer() {
 
   try {
     await initDatabase();
-    
+    await seed().catch((err) => {
+      console.warn('Seed failed (non-fatal):', err);
+    });
+
     server = app.listen(PORT, (error?: Error) => {
       if (error) {
         console.error('Failed to start server:', error);

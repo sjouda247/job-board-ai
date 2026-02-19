@@ -145,11 +145,8 @@ async function startServer() {
 
   try {
     await initDatabase();
-    await seed().catch((err) => {
-      console.warn('Seed failed (non-fatal):', err);
-    });
 
-    server = app.listen(PORT, (error?: Error) => {
+    server = app.listen(PORT, async (error?: Error) => {
       if (error) {
         console.error('Failed to start server:', error);
         process.exit(1);
@@ -160,6 +157,10 @@ async function startServer() {
 🌍 Environment: ${process.env.NODE_ENV || 'development'}
 📝 API: http://localhost:${PORT}/api
       `);
+      // Run seed after listening so Cloud Run sees the port open quickly
+      seed().catch((err) => {
+        console.warn('Seed failed (non-fatal):', err);
+      });
     });
   } catch (error) {
     console.error('Failed to initialize database:', error);

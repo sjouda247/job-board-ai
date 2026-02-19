@@ -18,6 +18,7 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5001;
+const HOST = process.env.NODE_ENV === 'production' ? '0.0.0.0' : undefined;
 
 // Middleware
 app.use(cors({
@@ -146,7 +147,7 @@ async function startServer() {
   try {
     await initDatabase();
 
-    server = app.listen(PORT, async (error?: Error) => {
+    const listenCallback = async (error?: Error) => {
       if (error) {
         console.error('Failed to start server:', error);
         process.exit(1);
@@ -157,11 +158,13 @@ async function startServer() {
 🌍 Environment: ${process.env.NODE_ENV || 'development'}
 📝 API: http://localhost:${PORT}/api
       `);
-      // Run seed after listening so Cloud Run sees the port open quickly
       seed().catch((err) => {
         console.warn('Seed failed (non-fatal):', err);
       });
-    });
+    };
+    server = HOST
+      ? app.listen(PORT, HOST, listenCallback)
+      : app.listen(PORT, listenCallback);
   } catch (error) {
     console.error('Failed to initialize database:', error);
     process.exit(1);

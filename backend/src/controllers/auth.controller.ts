@@ -1,6 +1,6 @@
 import { Response } from 'express';
 import bcrypt from 'bcrypt';
-import jwt from "jsonwebtoken";
+import jwt, { Secret, SignOptions } from "jsonwebtoken";
 import { validationResult } from 'express-validator';
 import { UserModel } from '../models/user.model';
 import { authConfig } from '../config/auth';
@@ -31,8 +31,8 @@ export class AuthController {
       // Generate JWT token
       const token = jwt.sign(
         { id: user.id, email: user.email, role: user.role },
-        authConfig.jwtSecret,
-        { expiresIn: authConfig.jwtExpiresIn }
+        authConfig.jwtSecret as Secret,
+        { expiresIn: authConfig.jwtExpiresIn } as SignOptions
       );
 
       res.status(201).json({
@@ -75,8 +75,8 @@ export class AuthController {
       // Generate JWT token
       const token = jwt.sign(
         { id: user.id, email: user.email, role: user.role },
-        authConfig.jwtSecret,
-        { expiresIn: authConfig.jwtExpiresIn }
+        authConfig.jwtSecret as Secret,
+        { expiresIn: authConfig.jwtExpiresIn } as SignOptions
       );
 
       res.json({

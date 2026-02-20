@@ -34,13 +34,22 @@ app.use(express.urlencoded({ extended: true }));
 const uploadDir = process.env.UPLOAD_DIR || './uploads';
 app.use('/uploads', express.static(uploadDir));
 
-// Health check
-app.get('/health', (req, res) => {
+// Health handler (used for both /health and /api/health)
+const healthHandler = (_req: express.Request, res: express.Response) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
-});
+};
 
-// AI (Gemini) test endpoint
-app.get('/api/test/ai', async (req, res) => {
+// Alias: /health (e.g. for Cloud Run health checks)
+app.get('/health', healthHandler);
+
+// Redirect common mistaken paths (no /api prefix) to /api
+app.get('/jobs', (_req, res) => res.redirect(302, '/api/jobs'));
+app.get('/jobs/:id', (req, res) => res.redirect(302, `/api/jobs/${req.params.id}`));
+
+// All API routes under /api
+const api = express.Router();
+api.get('/health', healthHandler);
+api.get('/test/ai', async (req, res) => {
   try {
     const { gemini, geminiModel } = await import('./config/gemini');
 
@@ -78,25 +87,25 @@ app.get('/api/test/ai', async (req, res) => {
     });
   }
 });
-
-// API Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/jobs', jobsRoutes);
-app.use('/api/applications', applicationsRoutes);
-app.use('/api/hr', hrRoutes);
+api.use('/auth', authRoutes);
+api.use('/jobs', jobsRoutes);
+api.use('/applications', applicationsRoutes);
+api.use('/hr', hrRoutes);
+app.use('/api', api);
 
 // Production: serve React SPA from /public
 if (process.env.NODE_ENV === 'production') {
   const publicDir = path.join(__dirname, '..', 'public');
   app.use(express.static(publicDir));
-  app.get('*', (req, res, next) => {
+  // Express 5 / path-to-regexp: wildcard must have a name (e.g. *path not *)
+  app.get('*path', (req, res, next) => {
     if (req.path.startsWith('/api')) return next();
     res.sendFile(path.join(publicDir, 'index.html'));
   });
 }
 
-// 404 handler (API routes or development)
-app.use((req, res) => {
+// 404 handler — must be after all routes (including /api and production SPA)
+app.use((_req, res) => {
   res.status(404).json({ error: 'Route not found' });
 });
 
